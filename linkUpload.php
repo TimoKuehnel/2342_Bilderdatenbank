@@ -21,7 +21,22 @@
         $zeitstempelName = time() . "_" . $originalName;
         $zielPfad = $uploadOrdner . $zeitstempelName;
 
-        
+        $erlaubt = ['image/jpeg', 'image/jpg', 'image/gif', 'image/png'];
+        if (in_array($_FILES['bild']['type'], $erlaubt)) {
+
+            if(move_uploaded_file($_FILES['bild']['tmp_name'], $zielPfad)) {
+                $sql = "INSERT INTO imagesLink VALUES (?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$originalName, $zielPfad]);
+
+                echo "Bild erfolgreich hochgeladen!";
+            }
+            else {
+                echo "Fehler beim verschieben der Datei";
+            }
+        } else {
+            echo "Nur JPG, PNG und GIF erlaubt!";
+        }
     }
     ?>
 </body>
