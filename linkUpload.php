@@ -25,7 +25,7 @@
         if (in_array($_FILES['bild']['type'], $erlaubt)) {
 
             if(move_uploaded_file($_FILES['bild']['tmp_name'], $zielPfad)) {
-                $sql = "INSERT INTO imagesLink VALUES (?, ?)";
+                $sql = "INSERT INTO imagesLink (imageName, imageData) VALUES (?, ?)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$originalName, $zielPfad]);
 
